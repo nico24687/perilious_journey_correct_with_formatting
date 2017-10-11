@@ -33,10 +33,18 @@ class LinkedList
     end
 
     def insert(index, surname, supplies = {})
+        return unless index < @count
+
         @count += 1
         node = Node.new(surname, supplies)
-        old_next_node = head.next_node
-        head.next_node = node
+
+        current_node = head
+        for i in 0...index-1
+            current_node = current_node.next_node
+        end
+
+        old_next_node = current_node.next_node
+        current_node.next_node = node
         node.next_node = old_next_node
         node
     end
@@ -53,6 +61,7 @@ class LinkedList
     end
 
     def includes?(surname)
+        return false unless head
         return true if head.surname == surname
 
         current_node = head
